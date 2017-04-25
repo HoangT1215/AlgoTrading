@@ -25,17 +25,17 @@ class momentumstrat(object):
             resam = self.data.resample("5S").last()
             resam["returns"] = np.log(resam["ask"]/resam["ask"].shift(1))
             resam["position"] = np.sign(
-                    resam["returns"].rolling(6).mean()).dropna() #TODO: add self.momentum = timeframe
+                    resam["returns"].rolling(12).mean()).dropna() #TODO: add self.momentum = timeframe
             print(resam[["time", "ask", "returns", "position"]].tail())
 
-            if resam["position"].ix[-1] == 1:
-                if self.position == 0:
+            if resam["position"].ix[-1] == 1: # last position is higher than previous means
+                if self.position == 0: # position of portfolio equals to 0 => buy because no transaction happens before that
                     order = OrderEvent(
                             self.instrument, self.units, "market", "buy"
                             )
-                elif self.position == 1:
+                elif self.position == -1:
                     order = OrderEvent(
-                            self.instrument, 2*self.units, "market", "buy"
+                            self.instrument, 2*self.units, "market", "buy"  #order buy happens when 
                             )
                 else:
                     order = OrderEvent(
