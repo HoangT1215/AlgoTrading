@@ -32,10 +32,17 @@ class meanrevertstrat(object):
            	resam = self.data.resample(tick_distance).last()
             resam["returns"] = np.log(resam["ask"]/resam["ask"].shift(1))
 		
+		linearstrat()
 		pass
 
-	def linearMR():
+	def linearstrat():
 		lookback = halflife # The look-back for the moving average and standard deviation can be set to equal the half-life.
+		norm_dev = np.log(moving_avg)
+		mktVal = -(y-movingAvg(y, lookback))/movingStd(y, lookback) # go look for movingAvg function on the website
+		# Determine the normalized deviation from its moving average
+
+		self.units = -norm_dev
+		# Maintain the number of units in this asset negatively proportional to this normalized deviation
 		pass
 
 	
